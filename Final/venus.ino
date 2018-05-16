@@ -11,6 +11,8 @@
 define pin numbers here
  */
 #define PIN_SERVO_GRABBER 10
+#define PIN_SOUND_SERVO 11
+
 #define PIN_ENCODER_LEFT 7
 #define PIN_ENCODER_RIGHT 8
 #define PIN_MOTOR_LEFT 12
@@ -39,7 +41,7 @@ void setup() {
   pinMode(PIN_IR_B, INPUT);
   
   grabbingServo.attach(PIN_SERVO_GRABBER);  // attaches the servo on pin PIN_SERVO_GRABBER to the servo object
-
+  soundServo.attach(PIN_SOUND_SERVO);
 
   Serial.begin(9600);
 
