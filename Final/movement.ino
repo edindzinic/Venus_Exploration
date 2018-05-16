@@ -51,3 +51,31 @@ void turnDegrees(int degrees1, int turningSpeed) {
   rightMotor.detach();
   leftMotor.detach();
 }
+
+void driveDistance(int dist, int speed1) {
+  int counter = 0;
+  float distDivided = abs(dist/66);
+  int stops = round(distDivided * 32);
+  
+  rightMotor.attach(PIN_MOTOR_RIGHT);
+  leftMotor.attach(PIN_MOTOR_LEFT);
+  
+  if(dist > 0) {
+    rightMotor.writeMicroseconds(1400 - speed1);
+    leftMotor.writeMicroseconds(1600 + speed1);
+  } else {
+    rightMotor.writeMicroseconds(1600 + speed1);
+    leftMotor.writeMicroseconds(1400 - speed1);
+  }
+
+  int prevState = HIGH;
+  while(counter != stops) {
+    if(digitalRead(PIN_ENCODER_LEFT) !=  prevState) {
+      counter += 1;
+      prevState = digitalRead(PIN_ENCODER_LEFT);
+    }
+  }
+  
+  rightMotor.detach();
+  leftMotor.detach();
+}
