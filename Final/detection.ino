@@ -14,3 +14,24 @@ int detectCliff() {
     warn = 3;
   return warn;
 }
+
+int measureDist() {
+  long duration;
+  int cm;
+  
+  //Start measurement
+  pinMode(PIN_SOUND, OUTPUT);
+  digitalWrite(PIN_SOUND, LOW);
+  delayMicroseconds(2);
+  digitalWrite(PIN_SOUND, HIGH);
+  delayMicroseconds(5);
+  digitalWrite(PIN_SOUND, LOW);
+
+  //Read result
+  pinMode(PIN_SOUND, INPUT);
+  duration = pulseIn(PIN_SOUND, HIGH);
+  cm = duration / 29 / 2;
+
+  return cm;
+}
+
