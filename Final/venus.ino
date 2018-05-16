@@ -12,6 +12,7 @@ define pin numbers here
  */
 #define PIN_SERVO_GRABBER 10
 #define PIN_SOUND_SERVO 11
+#define PIN_SOUND 9
 
 #define PIN_ENCODER_LEFT 7
 #define PIN_ENCODER_RIGHT 8
