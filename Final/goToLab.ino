@@ -1,9 +1,9 @@
 //Defines (Constants)
 #define buffering 25 //what counts as straight ahead? If too small, the robot will jitter. If too large the robot will drive away from the transmitter
 //pinout
-#define ANT_WAVEFORM_OUT 8 // set output pin
-#define SPEAKER_FROM_WALKIETALKIE A1 //set input pin
-#define CALIBRATE_IN 11
+#define ANT_WAVEFORM_OUT 8 // #TODO fix this
+#define SPEAKER_FROM_WALKIETALKIE A1 
+#define CALIBRATE_IN 11 
 #define SERVO1pin  9
 #define SERVO2pin  10
 
