@@ -24,6 +24,12 @@ define pin numbers here
 #define PIN_IR_B A2
 #define IR_THRESHOLD 700
 
+#define CALIBRATE_IN 2
+#define ANT_WAVEFORM_OUT 4 
+#define SPEAKER_FROM_WALKIETALKIE A3 
+#define buffering 25
+
+
 Servo grabbingServo;  // create servo object to control a servo; twelve servo objects can be created on most boards
 Servo rightMotor;
 Servo leftMotor;
