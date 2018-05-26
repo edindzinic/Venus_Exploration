@@ -1,15 +1,14 @@
 #include <Servo.h>
+#include <EEPROM.h>
 
 // define all states for state machine
-#define STATE_SEARCH 0
-#define STATE_GRAB 1
-#define STATE_FINDLAB 2
-#define STATE_DROP 3
+#define STATE_CALIBRATION 0
+#define STATE_SEARCH 1
+#define STATE_GRAB 2
+#define STATE_FINDLAB 3
+#define STATE_DROP 4
 
-
-/*
-define pin numbers here
- */
+//define pin numbers here
 #define PIN_SERVO_GRABBER 10
 #define PIN_SOUND_SERVO 11
 #define PIN_SOUND 9
@@ -29,6 +28,8 @@ define pin numbers here
 #define SPEAKER_FROM_WALKIETALKIE A3 
 #define buffering 25
 
+uint16_t caliset = 0;
+uint16_t voltage = 0;
 
 Servo grabbingServo;  // create servo object to control a servo; twelve servo objects can be created on most boards
 Servo rightMotor;
@@ -40,22 +41,39 @@ int prevState = HIGH;
 int revolutions = 0;
 
 void setup() {
+  analogReference(DEFAULT);
+  Serial.begin(9600);
   // pinMode... for all defined pins
   pinMode(PIN_ENCODER_LEFT, INPUT);
   pinMode(PIN_ENCODER_RIGHT, INPUT);
   pinMode(PIN_IR_R, INPUT);
   pinMode(PIN_IR_L, INPUT);
   pinMode(PIN_IR_B, INPUT);
-  
+  pinMode(ANT_WAVEFORM_OUT, OUTPUT);
+  pinMode(SPEAKER_FROM_WALKIETALKIE, INPUT);
+  pinMode(CALIBRATE_IN, INPUT);
+
+  //delay(6000);
+  digitalWrite(CALIBRATE_IN, HIGH);
+  //read calibration word from EEPROM
+  byte HByte =  EEPROM.read(1);
+  byte LByte =  EEPROM.read(2);
+  caliset = word(HByte, LByte);
+
   grabbingServo.attach(PIN_SERVO_GRABBER);  // attaches the servo on pin PIN_SERVO_GRABBER to the servo object
   soundServo.attach(PIN_SOUND_SERVO);
-
-  Serial.begin(9600);
-
 }
 
 void loop() {
+
+  if(digitalRead(CALIBRATE_IN) == LOW){
+    state = STATE_CALIBRATION;
+  }
+
   switch(state){
+    case STATE_CALIBRATION:
+      findLab(true);
+      break;
     case STATE_SEARCH:
       search();
       break;
@@ -63,7 +81,7 @@ void loop() {
       grab();
       break;
     case STATE_FINDLAB:
-      findLab();
+      findLab(false);
       break;
     case STATE_DROP:
       drop();
