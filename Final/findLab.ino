@@ -30,27 +30,28 @@ void findLab(bool calibration){
 
   	}else{
   		//search
+		rightMotor.attach(PIN_MOTOR_RIGHT);
+  		leftMotor.attach(PIN_MOTOR_LEFT);
+  		
   		if (voltage > (caliset - buffering) && voltage < (caliset + buffering)) { //drive forward
    		//motor control code for FORWARD here
     	//code for a continuous roating servo is included below
-     	//servo1.write(180);
-     	//servo2.write(0);
-    	Serial.println("Go forward");
+     	leftMotor.write(0);
+     	rightMotor.write(180);
   		}
 
   		if (voltage > (caliset + buffering)){ //turn
 		//motor control code for TURNING here (right or left depends on antenna config.)
     	//code for a continuous roating servo is included below
-    	servo1.write(180);
-    	servo2.write(180);
+    	leftMotor.write(180);
+    	rightMotor.write(180);
   		}
 
   		if (voltage < (caliset - buffering)){  //turn the other way
 		//motor control code for TURNING the OTHER DIRECTION here (right or left depends on antenna config.)
     	//code for a continuous roating servo is included below
-      	//servo1.write(0);
-      	//servo2.write(0);
-    	Serial.println("Turn right?");
+      	leftMotor.write(0);
+      	rightMotor.write(0);
   	}
   	delay(5); //just a simple wait
   	Serial.print("In, Cal\t");
