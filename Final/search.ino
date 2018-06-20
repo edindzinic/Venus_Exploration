@@ -1,21 +1,21 @@
 void search(){
   bool found = false;
-  long previousMillis = 0;
-  int servoPos = 60;
-  int servoDir = 0;
-  driveForward(100);
+  int pos = 0;    // variable to store the servo position
+  int cPos;       // current position
+  int gPos = 120;       // goal position
+  int tDelay = 50; // delay between moves, gives appearance of smooth motion
+  long myservo_movetime = 0; // next time in millis servo next moves
+  driveForward(40);
   while(!found){
     // drive the robot until it has found the rock
-    if(millis()-previousMillis >= 5) {
-      if(servoPos == 60) servoDir = 0;
-      if(servoPos == 120) servoDir = 1;
-      if(servoDir == 0) {
-        servoPos += 1; 
-      } else if(servoDir == 1) {
-        servoPos -= 1;
-      }
-      soundServo.write(servoPos);
-      previousMillis = millis();
+    cPos = soundServo.read();
+    if (cPos <= 60) gPos = 120;
+    if (cPos >= 120) gPos = 60;
+    if (cPos != gPos && millis() >= myservo_movetime) {
+      if (cPos < gPos) soundServo.write(cPos+10);
+      if (cPos > gPos) soundServo.write(cPos-10);
+      //if (cPos == gPos) // nothing
+      myservo_movetime = millis() + tDelay;
     }
     if(detectCliff() == 1) { //detect black right
       stopMotors();
@@ -35,16 +35,19 @@ void search(){
       turnDegrees(90, 100); //turn right
       driveForward(100);
     }
-    if(measureDist() < 25) { //object is detected within 20cm
+    if(measureDist(PIN_SOUND_TOP) < 25) { //object is detected within 20cm
       stopMotors();
-      if(servoPos < 90) { //detected left, turn right
-        turnDegrees(-random(30, 90), 100); //turn right
+      if(cPos < 90) { //detected left, turn right
+        turnDegrees(-random(30, 90), 20); //turn right
       } else {
-        turnDegrees(random(30, 90), 100); //turn left
+        turnDegrees(random(30, 90), 20); //turn left
       }
-      driveForward(100);
+      driveForward(20);
     }
-    //if(stoneDetected()) found = true;
+    delay(1); //Ultrasonic inacuracies
+    if(stoneDetected() != 0) found = true;
   }
+  stopMotors();
+  state = STATE_GRAB;
 }
 
