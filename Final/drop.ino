@@ -105,7 +105,7 @@ void drop(){
     if(originalDist>500){ // we've found the entrance, drive a little further
       delay(200);
       driveDistance(-150, 70);
-      driveForward(70);
+      driveForward(10);
       
       while(detectCliff()==0) { }
       stopMotors();
@@ -124,9 +124,11 @@ void drop(){
 
   while(detectCliff() != 4){ }
   stopMotors();
-  // we are now on the ramp, past the tape
-  driveForward(70);
+  
+  driveForward(10);
   while(detectCliff()==4){ }
+  stopMotors();
+  delay(100);
 
   switch(detectCliff()){
     case 1: // right wheel is on tape
@@ -140,37 +142,37 @@ void drop(){
   while(detectCliff() != 0){ }
   stopMotors();
   
-  driveForward(70);
+  driveForward(10);
   while(detectCliff() == 0){ }
   
-  driveDistance(20,70);
+  driveDistance(40,5);
 
   // parralel to the entrance so now turn towards it
   turnDegrees(-1*leftOrRight*90,70);
   
-  driveDistance(200, 70);
+  driveDistance(250, 10);
 
-  driveForward(70);
+  driveForward(10);
   long previousMillis = millis();
   while(detectCliff() != 4) { 
     if(millis()-previousMillis > 200) {
       if(detectCliff() == 1){
         stopMotors();
         turn(-70,40);
-        driveForward(70);
+        driveForward(5);
       }
       if(detectCliff()== 2){
         stopMotors();
         turn(70,40);
-        driveForward(70);
+        driveForward(5);
       }
       previousMillis = millis();
     }
   }
   stopMotors();
-  Serial.print(detectCliff());
-  driveDistance(-50, 70);
-  driveForward(70);
+  
+  driveDistance(-30, 70);
+  driveForward(5);
   while(detectCliff() == 0);
   stopMotors();
   switch(detectCliff()){
@@ -191,6 +193,21 @@ void drop(){
   driveDistance(-40, 70);
   driveBackwards(70);
   while(detectCliff() != 4) {  }
+  stopMotors();
+  driveBackwards(70);
+  while(detectCliff() == 4) {}
+  stopMotors();
+
+  switch(detectCliff()){
+    case 1: // right wheel is on tape
+      rightMotor.write(84);
+      break;
+    case 2: // left wheel is on tape
+      leftMotor.write(96);
+      break;
+  }
+
+  while(detectCliff() != 0){ }
   stopMotors();
 
   driveDistance(-400,70);
