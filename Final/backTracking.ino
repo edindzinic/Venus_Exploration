@@ -88,34 +88,47 @@ float convertAngle(float angle){
 
 
 void returnToLab2(){
-  if(y < 0 && x > -100 && x < 100){
+  Serial.println(directionAngle);
+  if(y < 0 && x > -200 && x < 200){
     turnDegrees(-directionAngle, speed1);
-    driveStops(abs(y) - 1000, speed1);
+    driveStops(abs(y) - 150, speed1);
     state = STATE_DROP;
   }else{
-    if(y > 0 && x > -100 && x < 100){
+    if(y > 0 && x > -200 && x < 200){
       turnDegrees(-directionAngle-90, speed1);
-      driveStops(250, speed1);
+      driveStops(100, speed1);
     }
     
-    if(y < -100){
+    if(y < -105){
       turnDegrees(-directionAngle, speed1);
-      driveStops(-y - 100, speed1);
-    }else if(y >= -100 && x > 0){
-      turnDegrees(180 - directionAngle, speed1);
-      driveStops(y+100, speed1);
-    }else if(y >= -100 && x<0){
-      turnDegrees(directionAngle - 180, speed1);
-      driveStops(y+100, speed1);
+      driveStops(-y - 105, speed1);
+    }else if(y >= -105 && x > 0){
+      if(directionAngle > 0) {
+        turnDegrees(180 - directionAngle, speed1);
+      } else {
+        turnDegrees(-180 - directionAngle, speed1);
+      }
+      
+                  Serial.println("wrong1");
+      driveStops(y+105, speed1);
+    }else if(y >= -105 && x < 0){
+      if(directionAngle > 0) {
+        turnDegrees(180 - directionAngle, speed1);
+      } else {
+        turnDegrees(-180 - directionAngle, speed1);
+      }
+                  Serial.println("wrong2");
+      driveStops(y+105, speed1);
+
     }
   
     if(x>0){
       turnDegrees(-directionAngle - 90, speed1);
-      driveStops(abs(x) - 150, speed1);
+      driveStops(abs(x) - 200, speed1);
       state = STATE_DROP;
     }else if(x < 0){
       turnDegrees(-directionAngle + 90,speed1);
-      driveStops(abs(x) - 150, speed1);
+      driveStops(abs(x) - 200, speed1);
       state = STATE_DROP;
     }
 
