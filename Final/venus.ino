@@ -75,19 +75,12 @@ void setup() {
   delay(1000);
 
   attachInterrupt(digitalPinToInterrupt(2), interruptCounter, CHANGE);
-  /*driveStops(50,20);
+  driveDistance(200,20);
   turnDegrees(-90,20);
-  driveStops(200,20);
-  turnDegrees(-60,20);
-  driveStops(150,20);
-  turnDegrees(-60,20);
-  driveStops(150,20);
+  driveDistance(300,20);
+
   //turnDegrees(20,20);
-  returnToLab2();*/
-  
-
-
-  
+  returnToLab2();
   drop();
 
 }
@@ -105,7 +98,7 @@ void loop() {
       grab();
       break;
     case STATE_FINDLAB:
-      findLab();
+      returnToLab2();
       break;
     case STATE_DROP:
       drop();
