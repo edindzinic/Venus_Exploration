@@ -127,6 +127,8 @@ void driveStops(int stops, int speed1) {
     driveForward(speed1);
   }
 
+  counter2 = 0;
+
   while(counter2 < abs(stops)) {
   }
     
