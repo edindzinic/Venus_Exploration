@@ -25,7 +25,7 @@ define pin numbers here
 #define PIN_IR_R_ROCK A2
 #define PIN_IR_L_ROCK A3
 #define PIN_IR_F_ROCK A4
-#define IR_THRESHOLD 400
+#define IR_THRESHOLD 550
 
 #define PIN_GRAB_DETECT 5
 
